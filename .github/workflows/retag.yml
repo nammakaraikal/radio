@@ -1,0 +1,25 @@
+name: Refresh v1.0 Tag
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  retag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Delete and recreate tag v1.0
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git tag -d v1.0 || true
+          git push --delete origin v1.0 || true
+
+          git tag v1.0
+          git push origin v1.0
+
